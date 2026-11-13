@@ -54,12 +54,25 @@ form.addEventListener("submit", async (event) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ question }),
     });
-    const data = await response.json();
+    const raw = await response.text();
+    let data;
+    try {
+      data = raw ? JSON.parse(raw) : {};
+    } catch {
+      const contentType = response.headers.get("content-type") || "unknown content type";
+      const preview = raw.replace(/\s+/g, " ").slice(0, 140);
+      throw new Error(`API returned HTTP ${response.status} (${contentType}), not JSON. Check that config.js points to the Vercel /api/ask URL. ${preview}`);
+    }
+    if (!raw) throw new Error(`API returned an empty response (HTTP ${response.status}). Check the Vercel deployment and /api/ask route.`);
     if (!response.ok) throw new Error(data.error || `request failed (HTTP ${response.status})`);
+    if (typeof data.answer !== "string") throw new Error(`API returned JSON without an answer (HTTP ${response.status}). Check the Vercel function logs.`);
     showAnswer(data, question);
     status.textContent = "ready";
   } catch (error) {
-    showAnswer({ error: error.message }, question, true);
+    const message = error instanceof TypeError
+      ? "Could not reach the API. Check the Vercel URL and ALLOWED_ORIGIN setting."
+      : error.message;
+    showAnswer({ error: message }, question, true);
     status.textContent = "error";
   } finally {
     button.disabled = false;
