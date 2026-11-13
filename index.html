@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A simple command-line style help desk for BrightPath Learn.">
+  <title>BrightPath Help Desk</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.js"></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="terminal">
+    <header class="terminal-header">
+      <span>brightpath-helpdesk <span class="version">v0.1</span></span>
+      <span id="status">starting…</span>
+    </header>
+    <section id="history" class="history" aria-live="polite">
+      <p>BrightPath Learn help desk</p>
+      <p>Ask a question about the supplied guides.</p>
+      <p>Type <code>/help</code> for commands. Type <code>/clear</code> to clear this screen.</p>
+      <p id="setup-note" class="muted" hidden>Web API URL is not configured. Set it in <code>config.js</code>.</p>
+    </section>
+    <form id="ask-form" autocomplete="off">
+      <label for="question" aria-hidden="true" class="prompt">$</label>
+      <input id="question" name="question" type="text" maxlength="1000" placeholder="type a question and press Enter" autofocus required>
+      <button id="submit" type="submit">↵</button>
+    </form>
+    <footer>brightpath learn / sample support guides</footer>
+  </main>
+</body>
+</html>
