@@ -1,2 +1,2 @@
 // Public API endpoint only. Never put an API key in this file.
-window.HELPDESK_API_URL = "https://YOUR-VERCEL-PROJECT.vercel.app/api/ask";
+window.HELPDESK_API_URL = "https://ai-help-desk-kohl.vercel.app/";
